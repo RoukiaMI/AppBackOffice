@@ -1,8 +1,56 @@
 
 <h1>Descriptions Produits</h1>
-<ul>
-  <li *ngFor="let product of listproducts"> <p>ID :{{ product.name }} {{ product.price}}</li>
-</ul>
-  
-<p>Nom : </p>
-<p>Prix : </p>
+
+ 
+  <table>
+    <tr id="header">
+
+      <th>Nom</th>
+      <th>Prix produit</th>
+      <th>Prix en promotion</th>
+      <th>Pourcentage de promotion</th>
+      <th>Quantité en stock</th>
+      <th> Nombre d'articles vendus</th>
+      <th>Commentaires</th>
+
+
+    </tr>
+
+    <tr *ngFor="let p of listproducts">
+      <th *ngIf="p.category == 2">
+        <input class="input1" type="text" id="qte" name="qte" list="qte-list"  placeholder="Quantity..." #qte>
+        <button class="button4" type="button" >
+          Achat
+        </button>
+        <button class="button5" type="button" >
+          Vente
+        </button><br>
+        <input class="input1" type="text" id="pourcentage" name="pourcentage" list="pourcentage-list" placeholder="Pourcentage..." #pourcentage>
+        <button class="button6" type="button" >Pourcent</button>
+      </th>
+      <th *ngIf="p.id == 1">
+        {{p.name}}
+      </th>
+      <th *ngIf="p.id == 1">
+        {{p.price}} €
+      </th>
+      <th *ngIf="p.id == 1">
+        {{p.discount_price}} €
+      </th>
+      <th *ngIf="p.id == 1">
+        {{p.discount_percent}} %
+      </th>
+      <th *ngIf="p.id == 1">
+        {{p.quantity}}
+      </th>
+      <th *ngIf="p.id == 1">
+        {{p.sales_number}}
+      </th>
+      <th *ngIf="p.id == 1">
+        {{p.comments}}
+      </th>
+    </tr>
+  </table>
+
+
+
