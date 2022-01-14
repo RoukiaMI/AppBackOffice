@@ -1,7 +1,18 @@
+
+.container {
+  display: flex;
+  justify-content: center;
+  background-color: #09ebeb;
+  list-style: none;
+}
+
 ul#header li {
   display: inline;
   text-align: center;
-  padding: 2px;
+  padding: 3px;
   margin: 0;
   width: 19%;
+  text-transform: uppercase;
+  font-family: sans-serif;
 }
+
