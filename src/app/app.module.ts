@@ -10,6 +10,8 @@ import { DetailsProduitComponent } from './pages/details-produit/details-produit
 import { ProduitsService } from './core/services/produits.service';
 import { ProduitComponent } from './pages/produit/produit.component';
 import { HttpClientModule } from '@angular/common/http';
+import { DonneesHistoriqueComponent } from './pages/donnees-historique/donnees-historique.component';
+import { ChiffreAffaireComponent } from './features/chiffre-affaire/chiffre-affaire.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { HttpClientModule } from '@angular/common/http';
     HeaderComponent,
     FooterComponent,
     DetailsProduitComponent,
-    ProduitComponent
+    ProduitComponent,
+    DonneesHistoriqueComponent,
+    ChiffreAffaireComponent
   ],
   imports: [
     BrowserModule,
