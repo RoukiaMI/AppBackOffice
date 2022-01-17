@@ -3,15 +3,14 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\features",
-    "\\src\\app\\features\\header",
+    "\\src\\app\\core",
+    "\\src\\app\\core\\services",
     "\\src\\app\\pages",
-    "\\src\\app\\pages\\details-produit",
     "\\src\\app\\pages\\home",
     "\\src\\app\\pages\\produit",
     "\\src\\app\\shared",
     "\\src\\assets"
   ],
-  "SelectedNode": "\\src\\app\\pages\\produit.ts",
+  "SelectedNode": "\\src\\app\\core\\services\\produits.service.ts",
   "PreviewInSolutionExplorer": false
 }
