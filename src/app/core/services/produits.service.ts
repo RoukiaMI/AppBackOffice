@@ -28,6 +28,6 @@ export class ProduitsService {
   getProduitsFromJson() {
     return this.http.get<Produit[]>('../assets/data/products.json')
   }
-  
+
 
 }
