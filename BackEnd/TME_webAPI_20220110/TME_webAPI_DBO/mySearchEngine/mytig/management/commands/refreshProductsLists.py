@@ -18,9 +18,12 @@ class Command(BaseCommand):
                 tigID = product['id'],
                 name = product['name'],
                 price = product['price'],
+                prixVente = 0.0,
                 discount_price = product['discount'],
                 comments = product['comments'],
-                category = product['category']
+                category = product['category'],
+                benefices = 0,
+                invendus = 0
             )
             p.save()
             self.stdout.write(self.style.SUCCESS('['+time.ctime()+'] Successfully added product id="%s"' % product['id']))

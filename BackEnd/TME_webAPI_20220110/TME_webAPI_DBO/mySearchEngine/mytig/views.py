@@ -1,3 +1,4 @@
+from urllib import response
 import requests
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -30,16 +31,16 @@ class RedirectionDetailProduit(APIView):
 #######################################################################################################################################
 
 class DetailProduit(APIView):
-    def get_object(self, pk):
+
+    def get(self, request, format=None):
         try:
-            queryset = Produit.objects.get(tigID = pk)
-            response = ProduitSerializer(queryset).data
-            return response
+          res = []
+          queryset = Produit.objects.all()
+          for p in queryset:
+            res.append(ProduitSerializer(p).data)
+          return Response(res)
         except:
             raise Http404
-    def get(self, request, pk, format=None):
-        response = self.get_object(pk)
-        return Response(response)
 
 
 
@@ -147,25 +148,49 @@ class DispoDetail(APIView):
 
 #########################################################################################################################
 
+from mytig.models import Historique
+from mytig.serializers import HistoriqueSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+class Historique(APIView):
+  def get_object(self, pk):
+        try:
+          queryset = Historique.objects.all()
+          response = HistoriqueSerializer(queryset).data
+          return response
+        except:
+            raise Http404
+  def get(self, request, pk, format = None):
+    return Response(self.get_object(pk))
+
 
 class ModifStockR(APIView):
     def get_object(self, id):
         try:
-            queryset = Produit.objects.get(tigID = id)
-            return queryset
+            querysetProduit = Produit.objects.get(tigID = id)
+            querysetHistorique = Historique.objects.get(tigID = id)
+            return [querysetProduit, querysetHistorique]
         except Produit.DoesNotExist:
             raise Http404
 
-    def get(self, request, id, number,format=None):
-        prod = self.get_object(id)
-        if(prod.quantity<= 0):
+    def get(self, request, id, number, prixVente, format=None):
+        prod = self.get_object(id)[0]
+        if(prod.quantity<= 0 and prod.quantity < number):
             return Response(ProduitSerializer(prod).data)
         else:
-            prod.quantity = prod.quantity - number
-            prod.sales_number = prod.sales_number+number
-            prod.save()
-            response = ProduitSerializer(prod).data
-            return Response(response)
+            if(prixVente == 0):
+              prod.invendus += number
+              prod.save()
+              response = ProduitSerializer(prod).data
+              return Response(response)
+            else:
+              prod.quantity = prod.quantity - number
+              prod.sales_number = prod.sales_number+number
+              prod.benefices += prixVente * number
+              prod.save()
+              response = ProduitSerializer(prod).data
+              return Response(response)
 
 
 class ModifStockA(APIView):
@@ -178,9 +203,10 @@ class ModifStockA(APIView):
     def get(self, request, id, number,format=None):
 
         prod = self.get_object(id)
-        
+
         prod = self.get_object(id)
         prod.quantity = prod.quantity + number
+        prod.benefices -= prod.price * number
         prod.save()
         response = ProduitSerializer(prod).data
         return Response(response)
@@ -195,7 +221,7 @@ class ModifPourcentage(APIView):
     def get(self, request, id, pourcent,format=None):
 
         prod = self.get_object(id)
-        
+
         prod = self.get_object(id)
         prod.discount_percent = pourcent
         prod.save()

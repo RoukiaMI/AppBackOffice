@@ -63,7 +63,7 @@ export class ChiffreAffaireComponent implements OnInit {
           labels: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
           datasets: [{
               label: 'Chiffre d affaire mensuel',
-              data: [12, 19, 3, 5, 2, 3, 5, 15, 2, 2, 4, 17],
+              data: [12, 19, -2, 5, 2, 3, 5, 15, 2, 2, 4, 17],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
