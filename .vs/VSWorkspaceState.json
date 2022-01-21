@@ -1,16 +1,21 @@
 {
   "ExpandedNodes": [
     "",
+    "\\BackEnd",
+    "\\BackEnd\\TME_webAPI_20220110",
+    "\\BackEnd\\TME_webAPI_20220110\\TME_webAPI_DBO",
+    "\\BackEnd\\TME_webAPI_20220110\\TME_webAPI_DBO\\mySearchEngine",
+    "\\BackEnd\\TME_webAPI_20220110\\TME_webAPI_DBO\\mySearchEngine\\mytig",
+    "\\BackEnd\\TME_webAPI_20220110\\TME_webAPI_DBO\\mySearchEngine\\mytig\\management",
+    "\\BackEnd\\TME_webAPI_20220110\\TME_webAPI_DBO\\mySearchEngine\\mytig\\management\\commands",
     "\\src",
     "\\src\\app",
     "\\src\\app\\core",
     "\\src\\app\\core\\services",
     "\\src\\app\\pages",
-    "\\src\\app\\pages\\home",
-    "\\src\\app\\pages\\produit",
-    "\\src\\app\\shared",
-    "\\src\\assets"
+    "\\src\\app\\pages\\details-produit",
+    "\\src\\app\\pages\\produit"
   ],
-  "SelectedNode": "\\src\\app\\core\\services\\produits.service.ts",
+  "SelectedNode": "\\src\\app\\pages\\details-produit\\details-produit.component.ts",
   "PreviewInSolutionExplorer": false
 }

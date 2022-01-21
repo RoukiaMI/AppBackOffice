@@ -113,6 +113,8 @@ class PromoDetail(APIView):
 
 from mytig.models import Produit
 from mytig.serializers import ProduitSerializer
+from mytig.models import Historique
+from mytig.serializers import HistoriqueSerializer
 from django.http import Http404
 from django.http import JsonResponse
 
@@ -146,26 +148,69 @@ class DispoDetail(APIView):
 
 
 #########################################################################################################################
+from mytig.models import Produit
+from mytig.serializers import ProduitSerializer
+from mytig.models import Historique
+from mytig.serializers import HistoriqueSerializer
+from django.http import Http404
+from django.http import JsonResponse
 
 
+class DetailProduits(APIView):
+
+    def get(self, request, format=None):
+        res = []
+        queryset = Produit.objects.all()
+        for p in queryset:
+            res.append(ProduitSerializer(p).data)
+        return Response(res)
+
+from datetime import datetime
 class ModifStockR(APIView):
     def get_object(self, id):
         try:
-            queryset = Produit.objects.get(tigID = id)
-            return queryset
+            querysetProduit = Produit.objects.get(tigID = id)
+            #querysetHistorique = Historique.objects.get()
+            return querysetProduit
         except Produit.DoesNotExist:
             raise Http404
 
-    def get(self, request, id, number,format=None):
+    def get(self, request, id, number, prixVente, format=None):
         prod = self.get_object(id)
-        if(prod.quantity<= 0):
+        date=datetime.today()
+        if(prod.quantity<= 0 and prod.quantity < number):
             return Response(ProduitSerializer(prod).data)
         else:
-            prod.quantity = prod.quantity - number
-            prod.sales_number = prod.sales_number+number
-            prod.save()
-            response = ProduitSerializer(prod).data
-            return Response(response)
+            if(prixVente == 0):
+              prod.invendus += number
+              idProd=prod.id
+              benef=prod.benefices
+              """historique= Historique()
+              historique.tigID=idProd
+              historique.benefices=benef
+              historique.date=date
+              #historique=request.post
+              audit_url="http://127.0.0.1:8000/historique/"
+              audit_parms={
+                "tigID":idProd,
+                "benefices":benef,
+                "data":date
+                }
+              audit_obj=requests.post(audit_url, headers=None, params=audit_parms)"""
+              #historique.save()
+              prod.save()
+              response = ProduitSerializer(prod).data
+              
+              return Response(response)
+            else:
+              prod.quantity = prod.quantity - number
+              prod.sales_number = prod.sales_number+number
+              prod.benefices += prixVente * number
+              #historique= Historique(tigID=prod.id,benefices=prod.benefices,date=date)
+              #historique.save()
+              prod.save()
+              response = ProduitSerializer(prod).data
+              return Response(response)
 
 
 class ModifStockA(APIView):
@@ -176,11 +221,10 @@ class ModifStockA(APIView):
         except Produit.DoesNotExist:
             raise Http404
     def get(self, request, id, number,format=None):
-
         prod = self.get_object(id)
-        
-        prod = self.get_object(id)
+        date=datetime.today()
         prod.quantity = prod.quantity + number
+        prod.benefices -= prod.price * number
         prod.save()
         response = ProduitSerializer(prod).data
         return Response(response)
@@ -195,9 +239,28 @@ class ModifPourcentage(APIView):
     def get(self, request, id, pourcent,format=None):
 
         prod = self.get_object(id)
-        
-        prod = self.get_object(id)
         prod.discount_percent = pourcent
         prod.save()
         response = ProduitSerializer(prod).data
         return Response(response)
+
+
+from mytig.models import Historique
+from mytig.serializers import HistoriqueSerializer
+from django.http import Http404
+from django.http import JsonResponse
+class Historique(APIView):
+  def get_object(self):
+        try:
+          queryset = Historique.objects.create(tigID=2,benefices=0,date=date)
+          queryset.save()
+          response = HistoriqueSerializer(queryset).data
+          return response
+        except:
+            raise Http404
+  def get(self, request, format = None):
+    #hist=self.get_object(pk)
+    #historique=Historique(tigID=1,benefices=0,date=date).save()
+    response = HistoriqueSerializer(self.get_object()).data
+    return Response(response)
+  

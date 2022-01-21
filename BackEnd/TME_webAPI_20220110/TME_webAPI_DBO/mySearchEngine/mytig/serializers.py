@@ -1,6 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 from mytig.models import ProduitEnPromotion
 from mytig.models import Produit
+from mytig.models import Historique
 
 class ProduitEnPromotionSerializer(ModelSerializer):
     class Meta:
@@ -20,10 +21,23 @@ class ProduitSerializer(ModelSerializer):
             'tigID', 
             'name',
             'price',
+            'prixVente',
             'discount_price',
             'discount_percent',
             'quantity',
             'sales_number',
             'comments',
-            'category' 
+            'category',
+            'benefices',
+            'invendus'
         )
+
+
+class HistoriqueSerializer(ModelSerializer):
+  class Meta:
+    model = Historique
+    fields = (
+      'tigID',
+      'benefices',
+      'date'
+    )

@@ -13,20 +13,56 @@ export class DetailsProduitComponent implements OnInit {
   listproducts: any;
   listsproducts: any;
   //unProduit: Produit;
+  produit:any;
 
   constructor(public productsService: ProduitsService,public http: HttpClient) {
     this.listproducts = []
     this.listsproducts = []
+    this.produit=""
    
   }
 
   ngOnInit(): void {
-    this.productsService.getProduitsFromJson().subscribe(res => {
+    this.productsService.getData().subscribe((res:any) => {
       this.listproducts = res;
       console.log(this.listproducts)
     })
   }
-  
+
+  getProductQuantity(name: any) {
+    for (let p of this.listproducts) {
+      if (p.name == name) {
+        return p.quantity
+      }
+    }
+
+  }
+
+  refreshData() {
+    this.productsService.getData().subscribe((res: any) => {
+      this.listproducts = res;
+
+    }, (err:any) => {
+      alert('failerd loading json data');
+      console.log(err);
+    });
+  }
+
+  getProductNameID(name: any) {
+    for (let p of this.listproducts) {
+      if (p.name == name) {
+        this.produit = p;
+        
+      }
+    }
+  }
+  getProductName(name: any) {
+    for (let p of this.listproducts) {
+      if (p.name == name) {
+        this.produit = p;
+      }
+    }
+  }
   getProducts() {
     this.listproducts= this.productsService.getProduitsFromJson()
       
@@ -35,6 +71,54 @@ export class DetailsProduitComponent implements OnInit {
       console.log("TOITOTITOI")
         
   
+  }
+
+  incrementQteStock(name: any, qte: any) {
+  
+    this.productsService.increment(name, qte).subscribe((res: any) => {
+      console.log(res);
+      this.refreshData();
+
+    },
+      (err: any) => {
+        alert(err.message);
+      });
+
+  }
+
+  decrementQteStock(name: any, qte: any, price: any) {
+    if (this.getProductQuantity(name) - qte < 0) {
+      return alert("Quantité insufisante")
+    }
+    
+
+    this.productsService.decrement(name, qte, price).subscribe((res: any) => {
+      console.log(res);
+      this.refreshData();
+
+    },
+      (err:any) => {
+        alert('failed loading json data');
+      });
+
+
+  }
+
+  changePercent(name: any, p: any) {
+    console.log(typeof parseInt(p));
+    if (parseInt(p) < 0 || parseInt(p) > 100) {
+      return alert("Valeur de pourcentage incorrect")
+    }
+
+    this.productsService.percent(name, p).subscribe((res: any) => {
+      console.log(res);
+      this.refreshData();
+
+    },
+      (err: any) => {
+        alert(err.message);
+      });
+
   }
 
   //getData() {

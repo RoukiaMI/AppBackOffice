@@ -39,7 +39,44 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'mytig.apps.MytigConfig',
+    'corsheaders',
 ]
+
+
+CORS_ALLOW_HEADERS = (
+'accept',
+'accept-encoding',
+'authorization',
+'content-type',
+'dnt',
+'origin',
+'user-agent',
+'x-csrftoken',
+'x-requested-with',
+'Access-Control-Allow-Origin',)
+
+CORS_ALLOWED_ORIGINS = [
+    "https://example.com",
+    "https://sub.example.com",
+    "http://localhost:8080",
+    "http://127.0.0.1:9000"
+]
+
+
+CORS_ALLOW_CREDENTIALS=True
+
+
+CORS_ALLOW_METHODS = (
+'DELETE',
+'GET',
+'OPTIONS',
+'PATCH',
+'POST',
+'PUT')
+
+
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -49,7 +86,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+
+
 
 ROOT_URLCONF = 'mySearchEngine.urls'
 
@@ -114,6 +155,11 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 # Static files (CSS, JavaScript, Images)

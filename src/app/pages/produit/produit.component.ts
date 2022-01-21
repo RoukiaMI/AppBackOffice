@@ -10,46 +10,129 @@ import { Produit } from '../produit';
 })
 export class ProduitComponent implements OnInit {
 
-  listproducts: any;
+ products: any;
   listsproducts: any;
-  //unProduit: Produit;
-
+  product: any;
+  valueQ: any;
   constructor(public productsService: ProduitsService, public http: HttpClient) {
-    this.listproducts = []
+    this.products = []
     this.listsproducts = []
+    this.valueQ=''
 
   }
 
   ngOnInit(): void {
-    this.productsService.getProduitsFromJson().subscribe(res => {
-      this.listproducts = res;
-      console.log(this.listproducts)
-    })
+    this.productsService.getData().subscribe((res:any) => {
+      this.products = res;
+      console.log(this.products)
+    }, (err:any) => {console.log(err.message) })
+    //this.getProducts()
+  }
+
+  getValueInput(event:any) {
+    this.valueQ = event.target.value;
   }
 
   getProducts() {
-    this.listproducts = this.productsService.getProduitsFromJson()
+    this.products = this.productsService.getData()
 
-    console.log(this.listproducts)
+    console.log(this.products)
     // = res
     console.log("TOITOTITOI")
 
 
   }
  
-
-  incrementQteStock(idName:string, qte:number) {
-   // Annulation d'une commande donc on increment ce qu'on a decrementer
+  getProductId(id:any) {
+    for (let p of this.products) {
+      if (p.tigID == 1) {
+        this.product = p;
+      }
+    }
   }
 
-  decrementQteStock(idName:string, qte:number) {
-
-  // a la commande d'un produit
+  getProductName(name:any) {
+    for (let p of this.products) {
+      if (p.name == name) {
+        this.product = p;
+      }
+    }
   }
 
-  changePercent(idName:string, p:number) {
+  getProductNameID(name:any) {
+    for (let p of this.products) {
+      if (p.name == name) {
+        return p.tigID
+      }
+    }
+  }
 
-  // prendre un nom de produit et un pourcentage
+  getProductQuantity(name:any) {
+    for (let p of this.products) {
+      if (p.name == name) {
+        return p.quantity
+      }
+    }
+
+  }
+
+  refreshData() {
+    this.productsService.getData().subscribe(res => {
+      this.products = res;
+
+    }, (err) => {
+      alert('failerd loading json data');
+      console.log(err);
+    });
+  }
+
+  incrementQteStock(name:any, qte:any) {
+    var idName = this.getProductNameID(name);
+    this.productsService.increment(name, qte).subscribe((res:any) => {
+      console.log(res);
+      this.refreshData();
+
+    },
+      (err:any) => {
+        alert(err.message);
+      });
+   
+  }
+
+  decrementQteStock(name:any, qte:any,price:any) {
+    if (this.getProductQuantity(name) - qte < 0) {
+      return alert("Quantité insufisante")
+    }
+    var idName = this.getProductNameID(name);
+
+    this.productsService.decrement(name, qte,price).subscribe((res:any) => {
+      console.log(res);
+      this.refreshData();
+
+    },
+      (err:any) => {
+        alert('failed loading json data');
+      });
+    
+
+  }
+
+  changePercent(name:any, p:any) {
+    console.log(typeof parseInt(p));
+    if (parseInt(p) < 0 || parseInt(p) > 100) {
+      return alert("Valeur de pourcentage incorrect")
+    }
+    var idName = this.getProductNameID(name);
+
+    this.productsService.percent(name, p).subscribe((res:any) => {
+      console.log(res);
+      this.refreshData();
+
+    },
+      (err:any) => {
+        alert(err.message);
+      });
+
   }
 
   refreshListStock(id:number, value:number, name:string) {

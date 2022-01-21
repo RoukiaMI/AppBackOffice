@@ -11,10 +11,11 @@ urlpatterns = [
 	path('availableproducts/', views.DispoList.as_view()),
     path('availableproduct/<int:pk>/', views.DispoDetail.as_view()),
     path('modifStockA/<int:id>/<int:number>/',views.ModifStockA.as_view()),
-    path('modifStockR/<int:id>/<int:number>/',views.ModifStockR.as_view()),
+    path('modifStockR/<int:id>/<int:number>/<int:prixVente>/',views.ModifStockR.as_view()),
     path('detailproduit/<int:pk>/',views.DetailProduit.as_view()),
-    path('modifierPourcentage/<int:id>/<int:pourcent>/',views.ModifPourcentage.as_view())
-    
+    path('detailproduits/',views.DetailProduits.as_view()),
+    path('modifierPourcentage/<int:id>/<int:pourcent>/',views.ModifPourcentage.as_view()),
+    path('historique/', views.Historique.as_view())
 
    #path('coquillages/', views.Coquillageslist.as_view()),
     
