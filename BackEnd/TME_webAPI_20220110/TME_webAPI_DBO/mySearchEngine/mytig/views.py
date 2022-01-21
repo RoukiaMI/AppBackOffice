@@ -1,3 +1,4 @@
+from urllib import response
 import requests
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -30,16 +31,16 @@ class RedirectionDetailProduit(APIView):
 #######################################################################################################################################
 
 class DetailProduit(APIView):
-    def get_object(self, pk):
+
+    def get(self, request, format=None):
         try:
-            queryset = Produit.objects.get(tigID = pk)
-            response = ProduitSerializer(queryset).data
-            return response
+          res = []
+          queryset = Produit.objects.all()
+          for p in queryset:
+            res.append(ProduitSerializer(p).data)
+          return Response(res)
         except:
             raise Http404
-    def get(self, request, pk, format=None):
-        response = self.get_object(pk)
-        return Response(response)
 
 
 
@@ -154,6 +155,22 @@ from mytig.models import Historique
 from mytig.serializers import HistoriqueSerializer
 from django.http import Http404
 from django.http import JsonResponse
+
+from mytig.models import Historique
+from mytig.serializers import HistoriqueSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+class Historique(APIView):
+  def get_object(self, pk):
+        try:
+          queryset = Historique.objects.all()
+          response = HistoriqueSerializer(queryset).data
+          return response
+        except:
+            raise Http404
+  def get(self, request, pk, format = None):
+    return Response(self.get_object(pk))
 
 
 class DetailProduits(APIView):

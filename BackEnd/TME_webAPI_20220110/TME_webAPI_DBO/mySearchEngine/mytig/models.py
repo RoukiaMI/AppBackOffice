@@ -1,21 +1,21 @@
 from django.db import models
 
 # Create your models here.
-class ProduitEnPromotion(models.Model): #Reference a la bdd à distance de thibault
+class ProduitEnPromotion(models.Model): #Reference a la bdd � distance de thibault
     created = models.DateTimeField(auto_now_add=True)
     tigID = models.IntegerField(default='-1')
 
     class Meta:
         ordering = ('tigID',)
 
-class ProduitDisponible(models.Model):#Reference a la bdd à distance de thibault
+class ProduitDisponible(models.Model):#Reference a la bdd � distance de thibault
     created = models.DateTimeField(auto_now_add=True)
     tigID = models.IntegerField(default='-1')
 
     class Meta:
         ordering = ('tigID',)
 
-class Produit(models.Model): #Données du point relais
+class Produit(models.Model): #Donn�es du point relais
     created = models.DateTimeField(auto_now_add=True)
     tigID = models.IntegerField(default='-1')
     name = models.CharField(max_length=2000)

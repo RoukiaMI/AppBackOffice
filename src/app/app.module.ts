@@ -11,6 +11,7 @@ import { ProduitsService } from './core/services/produits.service';
 import { ProduitComponent } from './pages/produit/produit.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DonneesHistoriqueComponent } from './pages/donnees-historique/donnees-historique.component';
+import { ChiffreAffaireComponent } from './features/chiffre-affaire/chiffre-affaire.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { DonneesHistoriqueComponent } from './pages/donnees-historique/donnees-h
     FooterComponent,
     DetailsProduitComponent,
     ProduitComponent,
-    DonneesHistoriqueComponent
+    DonneesHistoriqueComponent,
+    ChiffreAffaireComponent
   ],
   imports: [
     BrowserModule,

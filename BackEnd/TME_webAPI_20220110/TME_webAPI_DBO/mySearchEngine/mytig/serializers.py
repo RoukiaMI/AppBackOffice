@@ -1,3 +1,5 @@
+from dataclasses import fields
+#from BackEnd.TME_webAPI_20220110.TME_webAPI_DBO.mySearchEngine.mytig.models import Historique
 from rest_framework.serializers import ModelSerializer
 from mytig.models import ProduitEnPromotion
 from mytig.models import Produit
@@ -18,7 +20,7 @@ class ProduitSerializer(ModelSerializer):
     class Meta:
         model = Produit
         fields = (
-            'tigID', 
+            'tigID',
             'name',
             'price',
             'prixVente',
